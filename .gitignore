@@ -1,0 +1,105 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+dist/
+downloads/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Django stuff
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# Static files (if generated)
+staticfiles/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Migrations (optional)
+# Uncomment only if you intentionally don't want to track migrations
+# **/migrations/
+# !**/migrations/__init__.py
+
+# Python tooling
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+.cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Type checker
+.dmypy.json
+dmypy.json
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Secrets
+*.pem
+*.key
+*.crt
+
+# Coverage reports
+coverage.xml
+*.cover
+
+# Docker (optional)
+docker-compose.override.yml
+
+# Local settings
+*.local
