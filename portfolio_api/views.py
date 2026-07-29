@@ -2,6 +2,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.cache import cache
 from django.utils import timezone
+from django.core.mail import send_mail
+
+from config import settings
 
 from .models import Profile, HomeContent, Project, SkillCategory, ExperienceEntry, Service
 from .serializers import (
@@ -116,7 +119,22 @@ def contact_view(request):
             {"error": "name, email, and message are required."},
             status=400, status_text="Bad Request",
         )
-    serializer.save()
+    contact = serializer.save()
+    assert settings.CONTACT_RECEIVER_EMAIL is not None
+    assert settings.DEFAULT_FROM_EMAIL is not None
+    
+    send_mail(
+        subject=f"Portfolio Contact - {contact.name}", # type: ignore
+        message=(
+            f"Name: {contact.name}\n" # type: ignore
+            f"Email: {contact.email}\n\n" # type: ignore
+            f"Message:\n"
+            f"{contact.message}" # type: ignore
+        ),
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[settings.CONTACT_RECEIVER_EMAIL],
+        fail_silently=False,
+    )
     return envelope(
         {"queued": True, "receivedAt": timezone.now().isoformat()},
         status=202, status_text="Accepted",
@@ -137,6 +155,8 @@ def login_view(request):
     cache_key = f"login-attempts:{ip}"
     attempts = cache.get(cache_key, 0) + 1
     cache.set(cache_key, attempts, timeout=WINDOW_SECONDS)
+
+    print(f"Login attempt from {ip}, request: {request.data}, attempts: {attempts}")
 
     if attempts > LIMIT:
         return envelope(
