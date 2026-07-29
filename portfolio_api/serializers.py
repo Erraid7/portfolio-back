@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile, HomeContent, Project, SkillCategory, ExperienceEntry, ContactMessage
+from .models import Profile, HomeContent, Project, Service, SkillCategory, ExperienceEntry, ContactMessage
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -46,3 +46,23 @@ class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactMessage
         fields = ["name", "email", "message"]
+
+class ServiceSerializer(serializers.ModelSerializer):
+    exampleProjectId = serializers.IntegerField(
+        source="example_project_id", allow_null=True
+    )
+    exampleLabel = serializers.CharField(source="example_label")
+
+    class Meta:
+        model = Service
+        fields = [
+            "key", "title", "tagline", "description", "deliverables",
+            "exampleProjectId", "exampleLabel",
+        ]
+
+    def to_representation(self, instance):
+        # Frontend expects {"id": "fullstack", ...} -- "key" is the DB column
+        # name, "id" is what the Service type in the frontend calls it.
+        data = super().to_representation(instance)
+        data["id"] = data.pop("key")
+        return data

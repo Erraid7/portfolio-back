@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from django.core.cache import cache
 from django.utils import timezone
 
-from .models import Profile, HomeContent, Project, SkillCategory, ExperienceEntry
+from .models import Profile, HomeContent, Project, SkillCategory, ExperienceEntry, Service
 from .serializers import (
-    ProfileSerializer, ProjectSerializer,
+    ProfileSerializer, ProjectSerializer, ServiceSerializer,
     SkillCategorySerializer, ExperienceEntrySerializer, ContactMessageSerializer,
 )
 from .envelope import envelope
@@ -98,6 +98,13 @@ def skills_view(request):
 def experience_view(request):
     entries = ExperienceEntry.objects.all()
     data = {"experience": ExperienceEntrySerializer(entries, many=True).data}
+    return envelope(data)
+
+
+@api_view(["GET"])
+def services_view(request):
+    services = Service.objects.all()
+    data = ServiceSerializer(services, many=True).data
     return envelope(data)
 
 

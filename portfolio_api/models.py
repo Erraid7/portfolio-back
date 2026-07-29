@@ -115,3 +115,25 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} <{self.email}>"
+
+class Service(models.Model):
+    key = models.SlugField(unique=True)          # "fullstack", "backend-api", ...
+    title = models.CharField(max_length=200)
+    tagline = models.CharField(max_length=300)
+    description = models.TextField()
+    deliverables = models.JSONField(default=list)  # list[str]
+
+    # Optional cross-link to a real project ("See it in ESI Flow"). SET_NULL
+    # so deleting a project doesn't delete the service, it just clears the link.
+    example_project = models.ForeignKey(
+        Project, null=True, blank=True, on_delete=models.SET_NULL, related_name="+"
+    )
+    example_label = models.CharField(max_length=200, blank=True, default="")
+
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
+
+    def __str__(self):
+        return self.title
