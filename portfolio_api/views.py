@@ -45,7 +45,7 @@ def home_view(request):
         "stats": [
             {"value": str(total_projects), "label": "projects shipped"},
             {"value": str(live_deployments), "label": "live deployments"},
-            {"value": str(platforms), "label": "platforms — web, mobile, desktop"},
+            {"value": str(platforms), "label": "platforms covered"},
             {"value": f"{tech_count}+", "label": "technologies across the stack"},
         ],
         "howToUse": content.how_to_use,
